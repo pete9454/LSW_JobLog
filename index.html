@@ -51,7 +51,7 @@
   }
   input[type="text"],
   input[type="date"],
-  input[type="time"] {
+  select {
     width: 100%;
     padding: 14px 12px;
     font-size: 16px;
@@ -64,12 +64,19 @@
   }
   input[type="text"]:focus,
   input[type="date"]:focus,
-  input[type="time"]:focus {
+  select:focus {
     border-color: var(--accent);
   }
-  input[type="date"]::-webkit-calendar-picker-indicator,
-  input[type="time"]::-webkit-calendar-picker-indicator {
+  input[type="date"]::-webkit-calendar-picker-indicator {
     filter: invert(0.7);
+  }
+  select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8'><path d='M1 1l5 5 5-5' stroke='%239aa0ab' stroke-width='2' fill='none'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 36px;
   }
   button {
     width: 100%;
@@ -135,10 +142,10 @@
     <input type="date" id="date">
 
     <label for="startTime">Start Time</label>
-    <input type="time" id="startTime">
+    <select id="startTime"></select>
 
     <label for="endTime">End Time</label>
-    <input type="time" id="endTime">
+    <select id="endTime"></select>
 
     <button id="saveBtn">Save</button>
     <div class="status" id="status"></div>
@@ -162,6 +169,26 @@
 
   // Default the date field to today for convenience
   document.getElementById('date').valueAsDate = new Date();
+
+  // Populate Start/End time dropdowns with 30-minute increments
+  function buildTimeOptions(selectId) {
+    const select = document.getElementById(selectId);
+    let optionsHtml = '<option value="">--</option>';
+    for (let h = 0; h < 24; h++) {
+      for (let m = 0; m < 60; m += 30) {
+        const hh = String(h).padStart(2, '0');
+        const mm = String(m).padStart(2, '0');
+        const value = hh + ':' + mm;
+        const hour12 = h % 12 === 0 ? 12 : h % 12;
+        const ampm = h < 12 ? 'AM' : 'PM';
+        const label = hour12 + ':' + mm + ' ' + ampm;
+        optionsHtml += '<option value="' + value + '">' + label + '</option>';
+      }
+    }
+    select.innerHTML = optionsHtml;
+  }
+  buildTimeOptions('startTime');
+  buildTimeOptions('endTime');
 
   document.getElementById('saveBtn').addEventListener('click', function() {
     const client = document.getElementById('client').value.trim();

@@ -126,7 +126,7 @@
 </head>
 <body>
   <div class="card">
-    <h1>Job Log</h1>
+    <h1>Land &amp; Sea Welding<br>Job Log</h1>
 
     <div class="setup-banner" id="setupBanner">
       One-time setup needed: this app sends email via EmailJS. Open this file in a text editor and fill in your EmailJS <code>PUBLIC_KEY</code>, <code>SERVICE_ID</code>, and <code>TEMPLATE_ID</code> near the top of the script. See the setup notes below the code.
@@ -146,6 +146,15 @@
 
     <label for="endTime">End Time</label>
     <select id="endTime"></select>
+	
+	<label for="nbt">Non-billable Time (hours)</label>
+    <input type="text" id="nbt" placeholder="0.5">
+	
+	<label for="quote">Quote - ex GST()</label>
+    <input type="text" id="quote" placeholder="0.5">
+	
+	<label for="notes">Notes</label>
+    <input type="textarea" id="notes" placeholder="0.5" rows="4" cols="25">
 
     <button id="saveBtn">Save</button>
     <div class="status" id="status"></div>
@@ -195,7 +204,10 @@
     const job = document.getElementById('job').value.trim();
     const date = document.getElementById('date').value;
     const startTime = document.getElementById('startTime').value;
-    const endTime = document.getElementById('endTime').value;
+    const endTime = document.getElementById('endTime').value; //nbt,quote,notes
+	const nbt = document.getElementById('nbt').value;
+	const quote = document.getElementById('quote').value;
+	const notes = document.getElementById('notes').value;
     const statusEl = document.getElementById('status');
     const btn = document.getElementById('saveBtn');
 
@@ -220,6 +232,9 @@
       date: date,
       start_time: startTime,
       end_time: endTime,
+	  _nbt : nbt,
+	  _quote : quote,
+	  _notes: notes,
       logged_at: new Date().toLocaleString()
     };
 

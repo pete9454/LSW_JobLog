@@ -71,11 +71,18 @@
     filter: invert(0.7);
   }
   textarea {
-  width: 100%;       /* Spans the full width of the phone screen */
-  box-sizing: border-box; /* Prevents padding from breaking the width */
-  max-width: 100%;   /* Keeps it from overflowing its container */
-  padding: 12px;     /* Makes it easy to tap on mobile devices */
-  font-size: 16px;   /* Prevents iOS from zooming in automatically */
+  width: 100%;       
+  box-sizing: border-box; 
+  max-width: 100%;   
+  padding: 14px 12px; /* Matches your other inputs */
+  font-size: 16px;   
+  background: #10131a; /* Dark background matching the theme */
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text);
+  outline: none;
+  font-family: inherit;
+  resize: vertical; /* Keeps layout neat on mobile devices */
 }
   select {
     appearance: none;
@@ -211,7 +218,7 @@
     const job = document.getElementById('job').value.trim();
     const date = document.getElementById('date').value;
     const startTime = document.getElementById('startTime').value;
-    const endTime = document.getElementById('endTime').value; //nbt,quote,notes
+    const endTime = document.getElementById('endTime').value;  
 	const nbt = document.getElementById('nbt').value;
 	const quote = document.getElementById('quote').value;
 	const notes = document.getElementById('notes').value;
@@ -255,7 +262,14 @@
       document.getElementById('job').value = '';
       document.getElementById('startTime').value = '';
       document.getElementById('endTime').value = '';
-      document.getElementById('date').valueAsDate = new Date();
+	  document.getElementById('nbt').value = '';
+	  document.getElementById('nbt').blur();
+	  document.getElementById('quote').value = '';
+	  document.getElementById('quote').blur();
+	  document.getElementById('notes').value = '';
+	  document.getElementById('notes').blur();
+	  document.getElementById('date').valueAsDate = new Date();
+	  
       btn.disabled = false;
     }, function(err) {
       statusEl.textContent = 'Failed to send. Check console for details.';
